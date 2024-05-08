@@ -130,7 +130,7 @@ BeamSearch是GreedySearch的改进版本，**其不再是每次都取得分最�
 事实上，在**top\_k和top\_p的采样中并不是完全按照分数权重来采样的**，一般采样前我们会将候选Token的得分向量经过softmax（公式如下图）转换为概率，然后按照概率分布采样。
 
 $`
-\operatorname{softmax}\left(y_{i}\right)=\frac{e^{y_{i}}}{\sum_{j=1}^{n} e^{y_{j}}}
+\text{softmax}\left(y_{i}\right)=\frac{e^{y_{i}}}{\sum_{j=1}^{n} e^{y_{j}}}
 `$
 
 很多时候我们想要控制采样的随机性，可以使用**带有温度系数T的softmax实现**，如下所示，温度系数T为大于0的任意值（Huggingface中限制`0.0<T<100.0`）。**当**\*\*`T=1`\*\***时，输出分布将与标准softmax输出相同。T的值越大，输出分布就越平滑，T的值越小，输出分布越陡峭**。
@@ -139,7 +139,7 @@ $`
 -   [ ] 如果希望**减小**输出分布的**随机性**，可以**减小**参数T，当T趋近于0时，就是等价于取top1。
 
 $`
-\operatorname{softmax}\left(y_{i}\right)=\frac{e^{\frac{y_{i}}{T}}}{\sum_{j=1}^{n} e^{\frac{y_{j}}{T}}}
+\text{softmax}\left(y_{i}\right)=\frac{e^{\frac{y_{i}}{T}}}{\sum_{j=1}^{n} e^{\frac{y_{j}}{T}}}
 `$
 
 假设得到的候选Token为：`[“human”、“obey”、“robot”、“EOS”]`，对应的分数为：`[0.92,0.11,0.33,0.04]`，则对于不同的参数t，利用上面的softmax可以得到对应的概率分布为：
